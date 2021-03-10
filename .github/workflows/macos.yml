@@ -1,0 +1,27 @@
+name: Mac OS X
+
+on:
+  pull_request:
+  push:
+  release:
+    types: published
+
+jobs:
+  macos:
+    runs-on: [macos-latest]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - name: Install dependencies
+      run: |
+        sudo chown -R $(whoami) $(brew --prefix)/*
+        brew unlink libpq
+        brew install --force boost postgresql || brew link --overwrite postgresql
+
+    - name: Build OZO
+      env:
+        BOOSTROOT: /usr
+      shell: bash
+      run: |
+        scripts/build.sh clang debug

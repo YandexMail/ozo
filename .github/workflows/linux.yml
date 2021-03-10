@@ -1,0 +1,37 @@
+name: Linux
+
+on:
+  pull_request:
+  push:
+  release:
+    types: published
+
+jobs:
+  linux:
+    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        pattern:
+          - 'pg docker gcc debug'
+          - 'pg docker gcc release'
+          - 'pg docker gcc test_external_project'
+          - 'pg docker clang debug'
+          - 'pg docker clang release'
+          - 'pg docker clang asan'
+          - 'pg docker clang ubsan'
+          - 'pg docker clang tsan'
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - name: Install dependencies
+      run: |
+        sudo sed -i 's/azure\.//' /etc/apt/sources.list
+        sudo apt update
+        sudo apt install -y python3-setuptools
+        pip3 install --user docker-compose
+
+    - name: Build OZO
+      shell: bash
+      run: |
+        scripts/build.sh ${{ matrix.pattern }}
