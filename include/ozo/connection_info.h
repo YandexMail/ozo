@@ -30,7 +30,7 @@ class connection_info {
     Statistics statistics;
 
 public:
-    using connection_type = std::shared_ptr<ozo::connection<OidMap, Statistics>>; //!< Type of connection which is produced by the source.
+    using connection_type = std::shared_ptr<ozo::connection<std::decay_t<OidMap>, Statistics>>; //!< Type of connection which is produced by the source.
 
     /**
      * @brief Construct a new connection information object
