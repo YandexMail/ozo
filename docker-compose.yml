@@ -29,8 +29,10 @@ services:
       POSTGRES_DB: *POSTGRES_DB
       POSTGRES_USER: *POSTGRES_USER
       POSTGRES_PASSWORD: *POSTGRES_PASSWORD
+      PROXY_HOST: ozo_proxy
     depends_on:
     - ozo_postgres
+    - ozo_proxy
     volumes:
     - ~/.ccache:/ccache
     - .:/code
@@ -58,6 +60,18 @@ services:
       POSTGRES_DB: *POSTGRES_DB
       POSTGRES_USER: *POSTGRES_USER
       POSTGRES_PASSWORD: *POSTGRES_PASSWORD
+    depends_on:
+    - ozo_postgres
+    volumes:
+    - .:/code
+    networks:
+    - ozo
+  ozo_proxy:
+    build: docker/proxy
+    image: ozo_proxy
+    privileged: true
+    environment:
+      POSTGRES_HOST: ozo_postgres
     depends_on:
     - ozo_postgres
     volumes:

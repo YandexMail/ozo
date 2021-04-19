@@ -88,7 +88,7 @@ if(CCACHE_FOUND)
 endif()
 
 # enable useful warnings and errors
-target_compile_options(ozo_tests PRIVATE -Wall -Wextra -pedantic -Werror)
+target_compile_options(ozo_tests PRIVATE -Wall -Wextra -Werror)
 
 # ignore specific errors for clang
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
