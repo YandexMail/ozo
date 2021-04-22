@@ -1,19 +1,18 @@
 #include <ozo/detail/base36.h>
+#include <boost/hana/comparing.hpp>
 
 #include <gtest/gtest.h>
 
 namespace {
 
-TEST(b36tol, should_with_HV001_return_29999809) {
-    EXPECT_EQ(ozo::detail::b36tol("HV001"), 29999809);
+TEST(ltob36, should_verify_runtime_version_of_ltob36) {
+    EXPECT_EQ(ozo::detail::ltob36(29999809), "HV001");
+    EXPECT_EQ(ozo::detail::ltob36(833328), "HV00");
+    EXPECT_EQ(ozo::detail::ltob36(0), "0");
 }
 
-TEST(b36tol, should_with_hv001_return_29999809) {
-    EXPECT_EQ(ozo::detail::b36tol("hv001"), 29999809);
-}
-
-TEST(ltob36, should_with_29999809_return_HV001) {
-    EXPECT_EQ("HV001", ozo::detail::ltob36(29999809));
-}
+static_assert(ozo::detail::ltob36<29999809>() == BOOST_HANA_STRING("HV001"));
+static_assert(ozo::detail::ltob36<833328>() == BOOST_HANA_STRING("HV00"));
+static_assert(ozo::detail::ltob36<0>() == BOOST_HANA_STRING("0"));
 
 } // namespace

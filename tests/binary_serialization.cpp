@@ -2,6 +2,7 @@
 #include <ozo/io/array.h>
 #include <ozo/ext/std.h>
 #include <ozo/pg/types.h>
+#include <boost/range/iterator_range.hpp>
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>

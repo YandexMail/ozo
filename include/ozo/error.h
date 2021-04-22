@@ -524,7 +524,9 @@ public:
     const char* name() const noexcept override final { return "ozo::sqlstate::category"; }
 
     std::string message(int value) const override final {
-        #define OZO_SQLSTATE_NAME(value) case value: return std::string(#value) + "(" + detail::ltob36(value) + ")";
+        #define OZO_SQLSTATE_NAME(value) case value: return boost::hana::to<char const*>(\
+                BOOST_HANA_STRING(#value) + BOOST_HANA_STRING("(") +\
+                detail::ltob36<value>() + BOOST_HANA_STRING(")"));
         switch (value) {
             OZO_SQLSTATE_NAME(successful_completion)
             OZO_SQLSTATE_NAME(warning)
