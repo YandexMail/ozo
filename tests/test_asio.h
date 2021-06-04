@@ -119,20 +119,20 @@ struct execution_context : asio::execution_context {
 
         void on_work_finished() const {}
 
-        template <typename Function>
-        void dispatch(Function&& f, std::allocator<void>) const {
+        template <typename Function, typename Allocator>
+        void dispatch(Function&& f, Allocator&&) const {
             assert_has_impl();
             return impl_->dispatch(wrap_shared(std::forward<Function>(f)));
         }
 
-        template <typename Function>
-        void post(Function&& f, std::allocator<void>) const {
+        template <typename Function, typename Allocator>
+        void post(Function&& f, Allocator&&) const {
             assert_has_impl();
             return impl_->post(wrap_shared(std::forward<Function>(f)));
         }
 
-        template <typename Function>
-        void defer(Function&& f, std::allocator<void>) const {
+        template <typename Function, typename Allocator>
+        void defer(Function&& f, Allocator&&) const {
             assert_has_impl();
             return impl_->defer(wrap_shared(std::forward<Function>(f)));
         }
