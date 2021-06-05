@@ -35,7 +35,7 @@ RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-7 100 && \
     update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-8 100 && \
     update-alternatives --install /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-7 100
 
-RUN wget -qO boost_1_66_0.tar.gz https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.gz && \
+RUN wget -qO boost_1_66_0.tar.gz https://boostorg.jfrog.io/artifactory/main/release/1.66.0/source/boost_1_66_0.tar.gz && \
     tar xzf boost_1_66_0.tar.gz && \
     cd boost_1_66_0 && \
     ./bootstrap.sh --with-libraries=atomic,system,thread,chrono,date_time,context,coroutine,program_options && \
