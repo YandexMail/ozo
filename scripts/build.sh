@@ -140,6 +140,8 @@ build() {
     mkdir -p ${BUILD_DIR}
     cd ${BUILD_DIR}
     cmake \
+        -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
         -DCMAKE_C_COMPILER="${CC_COMPILER}" \
         -DCMAKE_CXX_COMPILER="${CXX_COMPILER}" \
         -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"\
@@ -179,6 +181,8 @@ build() {
         mkdir -p ${EXT_BUILD_DIR}
         cd ${EXT_BUILD_DIR}
         cmake \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_C_COMPILER="${CC_COMPILER}" \
             -DCMAKE_CXX_COMPILER="${CXX_COMPILER}" \
             -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS" \

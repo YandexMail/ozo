@@ -1,5 +1,3 @@
-find_program(CCACHE_FOUND ccache)
-
 include(ExternalProject)
 ExternalProject_Add(
     GoogleTest
@@ -81,11 +79,6 @@ target_link_libraries(ozo_tests gtest)
 target_link_libraries(ozo_tests gmock)
 target_link_libraries(ozo_tests ozo)
 add_test(ozo_tests ozo_tests)
-
-if(CCACHE_FOUND)
-    set_target_properties(ozo_tests PROPERTIES RULE_LAUNCH_COMPILE ccache)
-    set_target_properties(ozo_tests PROPERTIES RULE_LAUNCH_LINK ccache)
-endif()
 
 # enable useful warnings and errors
 target_compile_options(ozo_tests PRIVATE -Wall -Wextra -pedantic -Werror)
