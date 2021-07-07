@@ -16,6 +16,8 @@ include_directories(SYSTEM "${source_dir}/include")
 include_directories(SYSTEM "${CMAKE_CURRENT_BINARY_DIR}/include")
 link_directories("${CMAKE_CURRENT_BINARY_DIR}/lib")
 
+include(sanitaizers)
+
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(SOURCES

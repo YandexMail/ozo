@@ -9,11 +9,9 @@ build_clang() {
     case "$TARGET" in
         debug)
             CMAKE_BUILD_TYPE=Debug
-            build
         ;;
         release)
             CMAKE_BUILD_TYPE=RelWithDebInfo
-            build
         ;;
         test_external_project)
             CMAKE_BUILD_TYPE=Release
@@ -21,29 +19,23 @@ build_clang() {
             build
         ;;
         asan)
-            export ASAN_OPTIONS='halt_on_error=1:strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1'
-            ASAN_CXX_FLAGS='-fno-omit-frame-pointer -fsanitize=address -fsanitize-address-use-after-scope -fsanitize-recover=address'
-            CMAKE_CXX_FLAGS_RELWITHDEBINFO="-g -O1 ${ASAN_CXX_FLAGS}"
+            USE_SANITIZER="Address"
             CMAKE_BUILD_TYPE=RelWithDebInfo
-            build
         ;;
         ubsan)
-            export UBSAN_OPTIONS='print_stacktrace=1'
+            USE_SANITIZER="Undefined"
             CMAKE_BUILD_TYPE=Debug
-            CMAKE_CXX_FLAGS='-fno-omit-frame-pointer -fsanitize=undefined'
-            build
         ;;
         tsan)
-            export TSAN_OPTIONS='second_deadlock_stack=1'
+            USE_SANITIZER="Thread"
             CMAKE_BUILD_TYPE=RelWithDebInfo
-            CMAKE_CXX_FLAGS_RELWITHDEBINFO='-g -O2 -fno-omit-frame-pointer -fsanitize=thread'
-            build
         ;;
         conan)
             build_conan
         ;;
         *) usage "bad clang target '$TARGET'";;
     esac
+    build
 }
 
 build_gcc() {
@@ -144,6 +136,7 @@ build() {
         -DCMAKE_CXX_COMPILER="${CXX_COMPILER}" \
         -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"\
         -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="$CMAKE_CXX_FLAGS_RELWITHDEBINFO" \
+        -DUSE_SANITIZER="$USE_SANITIZER" \
         -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
         -DOZO_BUILD_TESTS=ON \
         -DOZO_BUILD_EXAMPLES=ON \
